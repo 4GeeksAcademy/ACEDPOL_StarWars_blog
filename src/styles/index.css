@@ -1,6 +1,15 @@
 /* 
     General Styles
 */
+@font-face { 
+    font-family: 'NewFont'; 
+    src: url('../font/esp.ttf') format('truetype'); 
+}
+
+.esp-font { 
+    font-family: 'NewFont', sans-serif; 
+}
+
 .navbar { 
     background-color: transparent !important; 
 }
