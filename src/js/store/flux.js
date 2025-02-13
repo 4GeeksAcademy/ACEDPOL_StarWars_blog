@@ -37,48 +37,42 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error al descargar los datos:", error); 
 				}
 			},
-			loadPeopleData: async (store) => {
-				try { 
-					// Fetch: descarga los personajes del servidor
-					const response = await fetch(store.url.people); 
-					const data = await response.json(); 
+			loadEntityData: async (url, entityKey) => {
+                try {
+                    // Fetch: descarga los datos del servidor
+                    const response = await fetch(url);
+                    const data = await response.json();
 
-					// Verifica si data no está vacío antes de actualizar el estado 
-					if (Array.isArray(data.results) && data.results.length > 0) { 
-						setStore({ people: data.results }); 
-					} 
-				} catch (error) { 
-					console.error("Error al descargar los personajes:", error); 
-				} 
-			},
-			loadPlanetsData: async (store) => {
-				try { 
-					// Fetch: descarga los planetas del servidor
-					const response = await fetch(store.url.planets); 
-					const data = await response.json(); 
+                    // Verifica si data no está vacío antes de actualizar el estado
+                    if (Array.isArray(data.results) && data.results.length > 0) {
+                        // Mapea las URLs de las entidades y realiza fetch en paralelo
+                        const entityData = await Promise.all(
+                            data.results.map(async (entity) => {
+                                const entityResponse = await fetch(entity.url);
+                                const entityData = await entityResponse.json();
+                                return entityData.result.properties;
+                            })
+                        );
 
-					// Verifica si data no está vacío antes de actualizar el estado 
-					if (Array.isArray(data.results) && data.results.length > 0) { 
-						setStore({ planets: data.results }); 
-					} 
-				} catch (error) { 
-					console.error("Error al descargar los planetas:", error); 
-				} 
-			},
-			loadVehiclesData: async (store) => {
-				try { 
-					// Fetch: descarga los vehiculos del servidor
-					const response = await fetch(store.url.vehicles); 
-					const data = await response.json(); 
-
-					// Verifica si data no está vacío antes de actualizar el estado 
-					if (Array.isArray(data.results) && data.results.length > 0) { 
-						setStore({ vehicles: data.results }); 
-					} 
-				} catch (error) { 
-					console.error("Error al descargar los vehiculos:", error); 
-				} 
-			},
+                        setStore({ [entityKey]: entityData });
+                        console.log(entityData);
+                    }
+                } catch (error) {
+                    console.error(`Error al descargar los ${entityKey}:`, error);
+                }
+            },
+            loadPeopleData: async (store) => {
+                const actions = getActions();
+                await actions.loadEntityData(store.url.people, "people");
+            },
+            loadPlanetsData: async (store) => {
+                const actions = getActions();
+                await actions.loadEntityData(store.url.planets, "planets");
+            },
+            loadVehiclesData: async (store) => {
+                const actions = getActions();
+                await actions.loadEntityData(store.url.vehicles, "vehicles");
+            },
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();

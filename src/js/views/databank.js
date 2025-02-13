@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { Card } from "../component/card";
 
 export const DataBank = () => {
     const location = useLocation();
@@ -14,6 +15,7 @@ export const DataBank = () => {
             {category === "vehiculos" && <div>Contenido de Vehículos</div>}
             {category === "planetas" && <div>Contenido de Planetas</div>}
             {favorites === "true" && <div>Mostrando solo favoritos</div>}
+            <Card />
         </div>
     );
 };
