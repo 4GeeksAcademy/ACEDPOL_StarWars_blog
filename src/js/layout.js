@@ -3,8 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
 import { Home } from "./views/home";
-import { Demo } from "./views/demo";
-import { Single } from "./views/single";
+import { DataBank } from "./views/databank";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -17,16 +16,13 @@ const Layout = () => {
 
 	return (
 		<div>
-			{/* <div className="background" style={{ backgroundImage: `url(${background})` }}> */}
 			<img className="fondo-img" src={background}></img>
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
 					<Navbar />
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/demo" element={<Demo />} />
-						<Route path="/single/:theid" element={<Single />} />
-						<Route path="*" element={<h1>Not found!</h1>} />
+						<Route path="/databank" element={<DataBank />} />
 					</Routes>
 					<Footer />
 				</ScrollToTop>
