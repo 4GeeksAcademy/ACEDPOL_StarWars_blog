@@ -39,7 +39,7 @@ export const Navbar = () => {
         return location.search.includes(path) ? "nav-link active" : "nav-link";
     };
 
-    const isCategoryValid = category === "personajes" || category === "vehiculos" || category === "planetas";
+    const isCategoryValid = category === "people" || category === "planets" || category === "vehicles";
 
     return (
         <div className="d-flex justify-content-center mt-2">
@@ -55,13 +55,13 @@ export const Navbar = () => {
                     <Link className={`nav-link ${location.pathname === "/" && "active"}`} to="/">Inicio</Link>
                 </li> 
                 <li className="nav-item">
-                    <Link className={isActive("category=personajes")} to={getLinkWithFavorites("/databank?category=personajes")}>Personajes</Link>
+                    <Link className={isActive("category=people")} to={getLinkWithFavorites("/databank?category=people")}>Personajes</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className={isActive("category=planetas")} to={getLinkWithFavorites("/databank?category=planetas")}>Planetas</Link>
+                    <Link className={isActive("category=planets")} to={getLinkWithFavorites("/databank?category=planets")}>Planetas</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className={isActive("category=vehiculos")} to={getLinkWithFavorites("/databank?category=vehiculos")}>Vehículos</Link>
+                    <Link className={isActive("category=vehicles")} to={getLinkWithFavorites("/databank?category=vehicles")}>Vehículos</Link>
                 </li>
             </ul>
             <Favorites />
