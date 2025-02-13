@@ -59,3 +59,22 @@ html, body {
     height: 100%; 
     overflow: hidden; 
 }
+
+.btn-toggle {
+    background-color: transparent;
+    border: transparent solid 1px;
+    color: cadetblue;
+    transition: color .15s ease-in-out, border-color .15s ease-in-out;
+}
+.btn-toggle:hover {
+    border-color: #f8f9fa;
+    color: cadetblue;
+}
+.btn-toggle.active {
+    border-color: #f8f9fa;
+    color: whitesmoke;
+}
+.btn-no-outline {
+    outline: none !important;
+    box-shadow: none !important;
+}
