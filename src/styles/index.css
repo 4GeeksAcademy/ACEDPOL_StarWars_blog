@@ -78,3 +78,27 @@ html, body {
     outline: none !important;
     box-shadow: none !important;
 }
+
+.rectangle {
+    transition: box-shadow 0.15s;
+}
+.card-hover:hover .rectangle {
+    box-shadow: 0 0 5px 2.5px white;
+}
+.rectangle-link {
+    cursor: pointer;
+    text-decoration: none;
+}
+.card-title {
+    transition: box-shadow 0.15s, text-shadow 0.15s;
+}
+.card-hover:hover .card-title {
+    box-shadow: 0 5px 5px -5px white;
+    text-shadow: 0 0 5px white;
+}
+.card-image {
+    transition: box-shadow 0.15s;
+}
+.img-link:hover .card-image {
+    box-shadow: 0 0 10px 5px rgb(255, 0, 0);
+}

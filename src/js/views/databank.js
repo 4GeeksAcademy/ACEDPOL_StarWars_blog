@@ -37,15 +37,17 @@ export const DataBank = () => {
 
     return (
         <div className="text-white">
-            <h1>Databank</h1>
-            {category === "people" && <div>Contenido de Personajes</div>}
-            {category === "planets" && <div>Contenido de Planetas</div>}
-            {category === "vehicles" && <div>Contenido de Vehículos</div>}
-            {favorites === "true" && <div>Mostrando solo favoritos</div>}
-            <div className="row">
-                {categoryData.map((item, index) => (
-                    <Card key={index} data={item} image={categoryImages[category]} />
-                ))}
+            <div className="container">
+                <h1>Databank</h1>
+                {category === "people" && <div>Contenido de Personajes</div>}
+                {category === "planets" && <div>Contenido de Planetas</div>}
+                {category === "vehicles" && <div>Contenido de Vehículos</div>}
+                {favorites === "true" && <div>Mostrando solo favoritos</div>}
+                <div className="row">
+                    {categoryData.map((item, index) => (
+                        <Card key={index} data={item} image={categoryImages[category]} />
+                    ))}
+                </div>
             </div>
         </div>
     );
