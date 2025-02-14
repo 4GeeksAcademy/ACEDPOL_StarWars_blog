@@ -1,43 +1,48 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			main_url: "https://www.swapi.tech/api",
-			url: {
-				people: "",
-				planets: "",
-				vehicles: ""
-			},
-			people: [],
-			planets: [],
-			vehicles: []
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-			storeEndpoints: () => {
-				const store = getStore();
-				store.url.people = store.main_url + "/people";
-				store.url.planets = store.main_url + "/planets"
-				store.url.vehicles = store.main_url + "/vehicles"
-				console.log("People: " + store.url.people);
-				console.log("Planets: " + store.url.planets);
-				console.log("Vehicles: " + store.url.vehicles);
-			},
-			loadData: async () => {
-				const store = getStore();
-				const actions = getActions();
-				try {
-					await actions.loadPeopleData(store); 
-					await actions.loadPlanetsData(store); 
-					await actions.loadVehiclesData(store); 
-					console.log(store); // muestra los datos descargados
-				} catch (error) {
-					console.error("Error al descargar los datos:", error); 
-				}
-			},
-			loadEntityData: async (url, entityKey) => {
+    return {
+        store: {
+            main_url: "https://www.swapi.tech/api",
+            url: {
+                people: "",
+                planets: "",
+                vehicles: ""
+            },
+            people: JSON.parse(localStorage.getItem("people")) || [],
+            planets: JSON.parse(localStorage.getItem("planets")) || [],
+            vehicles: JSON.parse(localStorage.getItem("vehicles")) || []
+        },
+        actions: {
+            exampleFunction: () => {
+                getActions().changeColor(0, "green");
+            },
+            storeEndpoints: () => {
+                const store = getStore();
+                store.url.people = store.main_url + "/people";
+                store.url.planets = store.main_url + "/planets";
+                store.url.vehicles = store.main_url + "/vehicles";
+                console.log("People: " + store.url.people);
+                console.log("Planets: " + store.url.planets);
+                console.log("Vehicles: " + store.url.vehicles);
+            },
+            loadData: async () => {
+                const store = getStore();
+                const actions = getActions();
+                try {
+                    if (store.people.length === 0) {
+                        await actions.loadPeopleData(store);
+                    }
+                    if (store.planets.length === 0) {
+                        await actions.loadPlanetsData(store);
+                    }
+                    if (store.vehicles.length === 0) {
+                        await actions.loadVehiclesData(store);
+                    }
+                    console.log(store); // muestra los datos descargados
+                } catch (error) {
+                    console.error("Error al descargar los datos:", error);
+                }
+            },
+            loadEntityData: async (url, entityKey) => {
                 try {
                     // Fetch: descarga los datos del servidor
                     const response = await fetch(url);
@@ -55,6 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                         );
 
                         setStore({ [entityKey]: entityData });
+                        localStorage.setItem(entityKey, JSON.stringify(entityData));
                         console.log(entityData);
                     }
                 } catch (error) {
@@ -73,22 +79,22 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const actions = getActions();
                 await actions.loadEntityData(store.url.vehicles, "vehicles");
             },
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+            changeColor: (index, color) => {
+                //get the store
+                const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+                //we have to loop the entire demo array to look for the respective index
+                //and change its color
+                const demo = store.demo.map((elm, i) => {
+                    if (i === index) elm.background = color;
+                    return elm;
+                });
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
-		}
-	};
+                //reset the global store
+                setStore({ demo: demo });
+            }
+        }
+    };
 };
 
 export default getState;
