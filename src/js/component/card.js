@@ -29,7 +29,7 @@ export const Card = ({ category, data, image }) => {
                 <a href={googleImageSearchUrl} target="_blank" rel="noopener noreferrer" className="d-flex justify-content-center align-items-center img-link" style={{height: "200px"}}>
                     <img src={image} className="card-img-top card-image" alt={data.name} style={{width: "150px", height: "150px"}} />
                 </a>
-                <Link to={`/detail/${data.uid}`} className="rectangle-link card-hover d-flex flex-column justify-content-center align-items-center">
+                <Link to={`/detail/${category}/${data.uid}`} className="rectangle-link card-hover d-flex flex-column justify-content-center align-items-center">
                     <div className="my-3 rectangle" style={{width: "24px", height: "4px", backgroundColor: "white", borderRadius: "2px", alignSelf: "center"}}></div>
                     <div className="card-body text-center d-flex flex-column justify-content-center" style={{minHeight: "90px"}}>
                         <h5 className="card-title text-white">{data.name}</h5> 
