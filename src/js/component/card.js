@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 
-export const Card = ({ data, image }) => {
+export const Card = ({ category, data, image }) => {
+    const { actions } = useContext(Context);
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    const toggleFavorite = () => {
+        setIsFavorite(!isFavorite);
+        console.log(data.uid);
+        actions.toggleFavorite(category, data.uid); // Llama al método de flux
+    };
+
     // Construye la URL de búsqueda de imágenes de Google
     const googleImageSearchUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(data.name)}`;
     
@@ -16,7 +26,10 @@ export const Card = ({ data, image }) => {
                     <div className="card-body text-center d-flex flex-column justify-content-center" style={{minHeight: "90px"}}>
                         <h5 className="card-title text-white">{data.name}</h5> 
                     </div> 
-                </Link> 
+                </Link>
+                <button className="card-icon btn btn-link btn-no-outline favorite-btn text-white py-1" onClick={toggleFavorite}>
+                    <i className={`btn-icon mx-auto ${isFavorite ? "fa-solid fa-heart" : "fa-regular fa-heart"}`}></i>
+                </button>
             </div>
         </div>
     );

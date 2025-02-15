@@ -45,7 +45,7 @@ export const DataBank = () => {
                 {favorites === "true" && <div>Mostrando solo favoritos</div>}
                 <div className="row">
                     {categoryData.map((item, index) => (
-                        <Card key={index} data={item} image={categoryImages[category]} />
+                        <Card key={index} category={category} data={item} image={categoryImages[category]} />
                     ))}
                 </div>
             </div>

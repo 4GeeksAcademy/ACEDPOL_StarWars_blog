@@ -9,7 +9,12 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
             people: JSON.parse(localStorage.getItem("people")) || [],
             planets: JSON.parse(localStorage.getItem("planets")) || [],
-            vehicles: JSON.parse(localStorage.getItem("vehicles")) || []
+            vehicles: JSON.parse(localStorage.getItem("vehicles")) || [],
+            favorites: JSON.parse(localStorage.getItem("favorites")) || {
+                people: [],
+                planets: [],
+                vehicles: []
+            }
         },
         actions: {
             exampleFunction: () => {
@@ -52,10 +57,12 @@ const getState = ({ getStore, getActions, setStore }) => {
                     if (Array.isArray(data.results) && data.results.length > 0) {
                         // Mapea las URLs de las entidades y realiza fetch en paralelo
                         const entityData = await Promise.all(
-                            data.results.map(async (entity) => {
+                            data.results.map(async (entity, index) => {
                                 const entityResponse = await fetch(entity.url);
                                 const entityData = await entityResponse.json();
-                                return entityData.result.properties;
+                                const properties = entityData.result.properties;
+                                properties.uid = index + 1; // Añade el valor uid
+                                return properties;
                             })
                         );
 
@@ -78,6 +85,20 @@ const getState = ({ getStore, getActions, setStore }) => {
             loadVehiclesData: async (store) => {
                 const actions = getActions();
                 await actions.loadEntityData(store.url.vehicles, "vehicles");
+            },
+            toggleFavorite: (category, uid) => {
+                const store = getStore();
+                const favorites = { ...store.favorites };
+
+                if (favorites[category].includes(uid)) {
+                    favorites[category] = favorites[category].filter(fav => fav !== uid);
+                } else {
+                    favorites[category].push(uid);
+                }
+
+                setStore({ favorites });
+                localStorage.setItem("favorites", JSON.stringify(favorites));
+                console.log(store);
             },
             changeColor: (index, color) => {
                 //get the store
