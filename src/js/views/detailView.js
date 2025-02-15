@@ -18,7 +18,8 @@ export const DetailView = () => {
             const container = document.querySelector('.detail-container');
             if (container && container.scrollHeight > container.clientHeight) {
                 setShowArrows(true);
-                if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
+                const scrollMargin = container.scrollHeight * 0.02; // 2% del scrollHeight
+                if (container.scrollTop + container.clientHeight >= container.scrollHeight - scrollMargin) {
                     setAnimateArrows(false);
                 } else {
                     setAnimateArrows(true);
