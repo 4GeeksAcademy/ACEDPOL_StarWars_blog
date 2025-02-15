@@ -44,7 +44,7 @@ export const Navbar = () => {
     return (
         <div className="d-flex justify-content-center mt-2">
             {isCategoryValid && (
-                <div className="position-absolute bottom-0 end-0 mb-2 me-2">
+                <div className="position-fixed bottom-0 end-0 mb-2 me-2">
                     <button className={`btn btn-toggle ${showFavorites ? 'active' : ''} btn-no-outline`} onClick={toggleFavorites}>
                         Favoritos
                     </button>

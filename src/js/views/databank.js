@@ -14,19 +14,30 @@ export const DataBank = () => {
     const favorites = queryParams.get("favorites");
 
     const getCategoryData = () => {
+        let data = [];
         switch (category) {
             case "people":
-                return store.people;
+                data = store.people;
+                break;
             case "planets":
-                return store.planets;
+                data = store.planets;
+                break;
             case "vehicles":
-                return store.vehicles;
+                data = store.vehicles;
+                break;
             default:
-                return [];
+                data = [];
         }
+
+        if (favorites === "true") {
+            const favoriteIds = store.favorites[category] || [];
+            data = data.filter(item => favoriteIds.includes(item.uid));
+        }
+
+        return data;
     };
 
-    const categoryData = getCategoryData(category);
+    const categoryData = getCategoryData();
 
     // Define un objeto que mapea cada categoría a su imagen correspondiente
     const categoryImages = {
@@ -38,12 +49,14 @@ export const DataBank = () => {
     return (
         <div className="text-white">
             <div className="container">
-                <h1>Databank</h1>
-                {category === "people" && <div>Contenido de Personajes</div>}
-                {category === "planets" && <div>Contenido de Planetas</div>}
-                {category === "vehicles" && <div>Contenido de Vehículos</div>}
-                {favorites === "true" && <div>Mostrando solo favoritos</div>}
-                <div className="row">
+                <div className="d-flex flex-column align-items-center mt-4">
+                    <h1>Databank</h1>
+                    {category === "people" && <div className="text-info">Contenido de Personajes</div>}
+                    {category === "planets" && <div className="text-info">Contenido de Planetas</div>}
+                    {category === "vehicles" && <div className="text-info">Contenido de Vehículos</div>}
+                    {favorites === "true" && <div className="text-secondary">Mostrando solo favoritos</div>}
+                </div>
+                <div className="row card-container justify-content-center">
                     {categoryData.map((item, index) => (
                         <Card key={index} category={category} data={item} image={categoryImages[category]} />
                     ))}
