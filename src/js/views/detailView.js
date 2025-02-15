@@ -45,7 +45,7 @@ export const DetailView = () => {
         return <div className="text-white">Item not found</div>;
     }
 
-    const excludedKeys = ["name", "created", "edited", "url", "uid", "pilots", "films"];
+    const excludedKeys = ["name", "image", "created", "edited", "url", "uid", "pilots", "films"];
 
     const properties = Object.entries(item).filter(([key]) => !excludedKeys.includes(key));
 
@@ -53,6 +53,12 @@ export const DetailView = () => {
     for (let i = 0; i < properties.length; i += 4) {
         groupedProperties.push(properties.slice(i, i + 4));
     }
+
+    const getHomeworldName = (url) => {
+        const index = url.split('/').pop();
+        const planet = store.planets.find(planet => planet.uid === parseInt(index));
+        return planet ? planet.name : url;
+    };
 
     return (
         <div className="container text-white mt-5 detail-container">
@@ -67,7 +73,7 @@ export const DetailView = () => {
                             <div className="list-group-item bg-transparent text-white">
                                 <div className="property-key">{key}</div>
                                 <div className="property-value">
-                                    {value.split(',').map((val, index) => (
+                                    {key === "homeworld" && category === "people" ? getHomeworldName(value) : value.split(',').map((val, index) => (
                                         <div key={index}>{val.trim()}</div>
                                     ))}
                                 </div>
