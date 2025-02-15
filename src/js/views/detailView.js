@@ -16,7 +16,7 @@ export const DetailView = () => {
     useEffect(() => {
         const handleScroll = () => {
             const container = document.querySelector('.detail-container');
-            if (container.scrollHeight > container.clientHeight) {
+            if (container && container.scrollHeight > container.clientHeight) {
                 setShowArrows(true);
                 if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
                     setAnimateArrows(false);
@@ -30,10 +30,15 @@ export const DetailView = () => {
 
         handleScroll();
         window.addEventListener('resize', handleScroll);
-        document.querySelector('.detail-container').addEventListener('scroll', handleScroll);
+        const container = document.querySelector('.detail-container');
+        if (container) {
+            container.addEventListener('scroll', handleScroll);
+        }
         return () => {
             window.removeEventListener('resize', handleScroll);
-            document.querySelector('.detail-container').removeEventListener('scroll', handleScroll);
+            if (container) {
+                container.removeEventListener('scroll', handleScroll);
+            }
         };
     }, []);
 

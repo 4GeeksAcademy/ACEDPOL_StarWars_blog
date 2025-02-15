@@ -10,7 +10,7 @@ export const Favorites = () => {
             const item = store[category].find(item => item.uid === uid);
             return item ? (
                 <li key={uid}>
-                    <Link to={`/detail/${uid}`} className="dropdown-item" style={{ textDecoration: 'none' }}>
+                    <Link to={`/detail/${category}/${uid}`} className="dropdown-item" style={{ textDecoration: 'none' }}>
                         {item.name}
                     </Link>
                 </li>
