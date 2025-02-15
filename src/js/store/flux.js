@@ -98,7 +98,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                 setStore({ favorites });
                 localStorage.setItem("favorites", JSON.stringify(favorites));
-                console.log(store);
             },
             changeColor: (index, color) => {
                 //get the store

@@ -1,14 +1,22 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const Card = ({ category, data, image }) => {
-    const { actions } = useContext(Context);
+    const { store, actions } = useContext(Context);
     const [isFavorite, setIsFavorite] = useState(false);
+
+    useEffect(() => {
+        // Comprobación inicial para ver si el uid está en los favoritos de la categoría
+        if (store.favorites[category] && store.favorites[category].includes(data.uid)) {
+            setIsFavorite(true);
+        } else {
+            setIsFavorite(false);
+        }
+    }, [store.favorites, category, data.uid]);
 
     const toggleFavorite = () => {
         setIsFavorite(!isFavorite);
-        console.log(data.uid);
         actions.toggleFavorite(category, data.uid); // Llama al método de flux
     };
 
