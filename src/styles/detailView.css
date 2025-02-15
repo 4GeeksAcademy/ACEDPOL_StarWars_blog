@@ -1,0 +1,46 @@
+.detail-container {
+    max-height: 70vh; /* Ajusta la altura máxima según tus necesidades */
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.detail-container::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, and Opera */
+}
+
+.detail-image {
+    width: 25%; /* Ocupa 1/4 del espacio total */
+    height: auto; /* Mantiene la proporción */
+}
+
+.list-group-item {
+    border: none; /* Elimina los bordes de los elementos de la lista */
+}
+
+.property-key {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.property-value {
+    font-size: 1em;
+}
+
+.row {
+    padding-top: 20px; /* Espacio superior */
+}
+
+.row.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.row.no-gutters > [class*='col-'] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.border-right {
+    border-right: 1px solid white; /* Línea vertical */
+}
