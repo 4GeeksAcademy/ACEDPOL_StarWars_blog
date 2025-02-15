@@ -1,3 +1,7 @@
+import jediAnakin from "../../img/jedi-anakin.jpeg";
+import tieFighter from "../../img/tie-fighter.jpeg";
+import deathStar from "../../img/death-star.jpeg";
+
 const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
@@ -6,6 +10,11 @@ const getState = ({ getStore, getActions, setStore }) => {
                 people: "",
                 planets: "",
                 vehicles: ""
+            },
+            categoryImages: {
+                people: jediAnakin,
+                planets: deathStar,
+                vehicles: tieFighter
             },
             people: JSON.parse(localStorage.getItem("people")) || [],
             planets: JSON.parse(localStorage.getItem("planets")) || [],
@@ -48,6 +57,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
             loadEntityData: async (url, entityKey) => {
+                const store = getStore();
+                const categoryImages = store.categoryImages;
                 try {
                     // Fetch: descarga los datos del servidor
                     const response = await fetch(url);
@@ -62,6 +73,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                                 const entityData = await entityResponse.json();
                                 const properties = entityData.result.properties;
                                 properties.uid = index + 1; // Añade el valor uid
+                                properties.image = categoryImages[entityKey]; // Añade la imagen de la categoría
+
                                 return properties;
                             })
                         );

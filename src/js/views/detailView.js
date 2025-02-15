@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/detailView.css"; // Asegúrate de importar el archivo CSS
 
 export const DetailView = () => {
     const { store } = useContext(Context);
     const { category, uid } = useParams();
-    const location = useLocation();
-    const { image } = location.state || {};
     const [showArrows, setShowArrows] = useState(false);
     const [animateArrows, setAnimateArrows] = useState(true);
 
@@ -59,7 +57,7 @@ export const DetailView = () => {
     return (
         <div className="container text-white mt-5 detail-container">
             <div className="d-flex flex-column align-items-center">
-                {image && <img src={image} alt={item.name} className="img-fluid mb-3 detail-image" />}
+                {item.image && <img src={item.image} alt={item.name} className="img-fluid mb-3 detail-image" />}
                 <h1>{item.name}</h1>
             </div>
             {groupedProperties.map((group, groupIndex) => (

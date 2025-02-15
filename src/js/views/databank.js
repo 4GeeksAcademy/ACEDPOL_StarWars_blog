@@ -2,9 +2,6 @@ import React, { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Card } from "../component/card";
-import jediAnakin from "../../img/jedi-anakin.jpeg";
-import tieFighter from "../../img/tie-fighter.jpeg";
-import deathStar from "../../img/death-star.jpeg";
 
 export const DataBank = () => {
     const { store } = useContext(Context);
@@ -39,13 +36,6 @@ export const DataBank = () => {
 
     const categoryData = getCategoryData();
 
-    // Define un objeto que mapea cada categoría a su imagen correspondiente
-    const categoryImages = {
-        people: jediAnakin,
-        planets: deathStar,
-        vehicles: tieFighter
-    };
-
     return (
         <div className="text-white">
             <div className="container">
@@ -56,9 +46,9 @@ export const DataBank = () => {
                     {category === "vehicles" && <div className="text-info">Contenido de Vehículos</div>}
                     {favorites === "true" && <div className="text-secondary">Mostrando solo favoritos</div>}
                 </div>
-                <div className="row card-container justify-content-center">
+                <div className="row card-container justify-content-center mx-5">
                     {categoryData.map((item, index) => (
-                        <Card key={index} category={category} data={item} image={categoryImages[category]} />
+                        <Card key={index} category={category} data={item} />
                     ))}
                 </div>
             </div>
