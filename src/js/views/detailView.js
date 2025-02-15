@@ -45,7 +45,7 @@ export const DetailView = () => {
         return <div className="text-white">Item not found</div>;
     }
 
-    const excludedKeys = ["name", "image", "created", "edited", "url", "uid", "pilots", "films"];
+    const excludedKeys = ["name", "image", "created", "edited", "url", "uid"];
 
     const properties = Object.entries(item).filter(([key]) => !excludedKeys.includes(key));
 
@@ -60,6 +60,30 @@ export const DetailView = () => {
         return planet ? planet.name : url;
     };
 
+    const getPilotName = (url) => {
+        const index = url.split('/').pop();
+        const pilot = store.people.find(person => person.uid === parseInt(index));
+        return pilot ? pilot.name : url;
+    };
+
+    const renderPropertyValue = (key, value) => {
+        if (key === "homeworld" && category === "people") {
+            return getHomeworldName(value);
+        } else if (key === "pilots" && category === "vehicles") {
+            if (Array.isArray(value) && value.length > 0) {
+                return value.map((url, index) => <div key={index}>{getPilotName(url)}</div>);
+            } else {
+                return null;
+            }
+        } else if (Array.isArray(value) && value.length > 0) {
+            return value.map((val, index) => <div key={index}>{val}</div>);
+        } else if (typeof value === 'string' && value.trim() !== "") {
+            return value.split(',').map((val, index) => <div key={index}>{val.trim()}</div>);
+        } else {
+            return null;
+        }
+    };
+
     return (
         <div className="container text-white mt-5 detail-container">
             <div className="d-flex flex-column align-items-center">
@@ -68,18 +92,20 @@ export const DetailView = () => {
             </div>
             {groupedProperties.map((group, groupIndex) => (
                 <div key={groupIndex} className="row no-gutters justify-content-center">
-                    {group.map(([key, value], index) => (
-                        <div key={key} className={`col-12 col-md-auto mb-2 ${index % 4 !== 3 ? 'border-right' : ''}`}>
-                            <div className="list-group-item bg-transparent text-white">
-                                <div className="property-key">{key}</div>
-                                <div className="property-value">
-                                    {key === "homeworld" && category === "people" ? getHomeworldName(value) : value.split(',').map((val, index) => (
-                                        <div key={index}>{val.trim()}</div>
-                                    ))}
+                    {group.map(([key, value], index) => {
+                        const renderedValue = renderPropertyValue(key, value);
+                        const nextRenderedValue = index < group.length - 1 ? renderPropertyValue(group[index + 1][0], group[index + 1][1]) : null;
+                        return renderedValue ? (
+                            <div key={key} className={`col-12 col-md-auto mb-2 ${nextRenderedValue ? 'border-right' : ''}`}>
+                                <div className="list-group-item bg-transparent text-white">
+                                    <div className="property-key">{key}</div>
+                                    <div className="property-value">
+                                        {renderedValue}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ) : null;
+                    })}
                 </div>
             ))}
             {showArrows && (
